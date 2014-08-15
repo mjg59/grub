@@ -78,6 +78,19 @@ grub_elf_check_header (grub_elf_t elf)
   if (e->e_version != EV_CURRENT)
     return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic"));
 
+  if (grub_elf_is_elf32 (elf))
+    {
+      grub_elf32_check_endianess (elf);
+      grub_elf32_check_version (elf);
+    }
+  else if (grub_elf_is_elf64 (elf))
+    {
+      grub_elf64_check_endianess (elf);
+      grub_elf64_check_version (elf);
+    }
+  else
+    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-dependent ELF magic"));
+
   return GRUB_ERR_NONE;
 }
 
@@ -186,10 +199,18 @@ grub_elf_open (const char *name)
 #undef ElfXX_Phdr
 #undef ElfXX_Ehdr
 #undef grub_uintXX_t
-#undef grub_swap_bytes_addrXX
-#undef grub_swap_bytes_offXX
-#undef grub_swap_bytes_XwordXX
-#undef grub_elfXX_check_endianess_and_bswap_ehdr
+#undef grub_be_to_halfXX
+#undef grub_be_to_wordXX
+#undef grub_be_to_addrXX
+#undef grub_be_to_offXX
+#undef grub_be_to_XwordXX
+#undef grub_le_to_halfXX
+#undef grub_le_to_wordXX
+#undef grub_le_to_addrXX
+#undef grub_le_to_offXX
+#undef grub_le_to_XwordXX
+#undef grub_elfXX_check_endianess
+#undef grub_elfXX_check_version
 
 
 /* 64-bit */
