@@ -3818,6 +3818,7 @@ you forget a command, you can run the command @command{help}
 * eval::                        Evaluate agruments as GRUB commands
 * export::                      Export an environment variable
 * false::                       Do nothing, unsuccessfully
+* getenv::                      Retrieve an EFI firmware variable
 * gettext::                     Translate a string
 * gptsync::                     Fill an MBR based on GPT entries
 * halt::                        Shut down your computer
@@ -4258,6 +4259,13 @@ Do nothing, unsuccessfully.  This is mainly useful in control constructs
 such as @code{if} and @code{while} (@pxref{Shell-like scripting}).
 @end deffn
 
+@node getenv
+@subsection getenv
+
+@deffn Command getenv [@option{-e}] [@option{-g}] envvar
+Retrieves an EFI variable with the name provided by @option{-e} and the GUID
+provied by @option{-g} and stores it in environment variable @var{envvar}
+@end deffn
 
 @node gettext
 @subsection gettext
