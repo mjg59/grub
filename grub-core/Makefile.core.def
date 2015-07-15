@@ -2376,6 +2376,13 @@ module = {
 };
 
 module = {
+  name = tpm;
+  common = commands/tpm.c;
+  efi = commands/efi/tpm.c;
+  enable = efi;
+};
+
+module = {
   name = tr;
   common = commands/tr.c;
 };
