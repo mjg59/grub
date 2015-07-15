@@ -129,6 +129,7 @@ kernel = {
   common = kern/rescue_parser.c;
   common = kern/rescue_reader.c;
   common = kern/term.c;
+  common = kern/tpm.c;
 
   noemu = kern/compiler-rt.c;
   noemu = kern/mm.c;
@@ -174,6 +175,7 @@ kernel = {
   efi = kern/efi/init.c;
   efi = kern/efi/mm.c;
   efi = term/efi/console.c;
+  efi = kern/efi/tpm.c;
 
   x86 = kern/i386/tsc.c;
 
@@ -207,6 +209,7 @@ kernel = {
 
   i386_pc = kern/i386/pc/init.c;
   i386_pc = kern/i386/pc/mmap.c;
+  i386_pc = kern/i386/pc/tpm.c;
   i386_pc = term/i386/pc/console.c;
 
   i386_qemu = bus/pci.c;
