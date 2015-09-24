@@ -33,15 +33,28 @@ static grub_efi_boolean_t grub_tpm2_present(grub_efi_tpm2_protocol_t *tpm)
 {
   grub_efi_status_t status;
   EFI_TCG2_BOOT_SERVICE_CAPABILITY caps;
+  EFI_TCG2_BOOT_SERVICE_CAPABILITY_1_0 *caps_1_0;
 
   caps.Size = (grub_uint8_t)sizeof(caps);
 
   status = efi_call_2(tpm->get_capability, tpm, &caps);
 
-  if (status != GRUB_EFI_SUCCESS || !caps.TPMPresentFlag)
+  if (status != GRUB_EFI_SUCCESS)
     return 0;
 
-  return 1;
+  /* 1.0 implementations don't pad the capabilities structure, so need to be
+   * special cased
+   */
+  if (caps.StructureVersion.Major == 1 && caps.StructureVersion.Minor == 0) {
+    caps_1_0 = (EFI_TCG2_BOOT_SERVICE_CAPABILITY_1_0 *)&caps;
+    if (caps_1_0->TPMPresentFlag)
+      return 1;
+  } else {
+    if (caps.TPMPresentFlag)
+      return 1;
+  }
+
+  return 0;
 }
 
 static grub_efi_boolean_t grub_tpm_handle_find(grub_efi_handle_t *tpm_handle,

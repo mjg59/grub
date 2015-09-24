@@ -86,7 +86,20 @@ typedef grub_efi_uint32_t EFI_TCG2_EVENT_ALGORITHM_BITMAP;
 typedef struct tdEFI_TCG2_VERSION {
   grub_efi_uint8_t Major;
   grub_efi_uint8_t Minor;
-} GRUB_PACKED EFI_TCG2_VERSION;
+} EFI_TCG2_VERSION;
+
+/* 1.0 implementations don't pack this structure */
+typedef struct tdEFI_TCG2_BOOT_SERVICE_CAPABILITY_1_0 {
+  grub_efi_uint8_t Size;
+  EFI_TCG2_VERSION StructureVersion;
+  EFI_TCG2_VERSION ProtocolVersion;
+  EFI_TCG2_EVENT_ALGORITHM_BITMAP HashAlgorithmBitmap;
+  EFI_TCG2_EVENT_LOG_BITMAP SupportedEventLogs;
+  grub_efi_boolean_t TPMPresentFlag;
+  grub_efi_uint16_t MaxCommandSize;
+  grub_efi_uint16_t MaxResponseSize;
+  grub_efi_uint32_t ManufacturerID;
+} EFI_TCG2_BOOT_SERVICE_CAPABILITY_1_0;
 
 typedef struct tdEFI_TCG2_BOOT_SERVICE_CAPABILITY {
   grub_efi_uint8_t Size;
