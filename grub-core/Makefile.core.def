@@ -1485,7 +1485,6 @@ module = {
 module = {
   name = gfxmenu;
   common = gfxmenu/gfxmenu.c;
-  common = gfxmenu/model.c;
   common = gfxmenu/view.c;
   common = gfxmenu/font.c;
   common = gfxmenu/icon_manager.c;
