@@ -3818,6 +3818,7 @@ you forget a command, you can run the command @command{help}
 * eval::                        Evaluate agruments as GRUB commands
 * export::                      Export an environment variable
 * false::                       Do nothing, unsuccessfully
+* fwconfig::                    Retrieves a value from the qemu fwcfg store
 * getenv::                      Retrieve an EFI firmware variable
 * gettext::                     Translate a string
 * gptsync::                     Fill an MBR based on GPT entries
@@ -4257,6 +4258,13 @@ to subsidiary configuration files loaded using @command{configfile}.
 @deffn Command false
 Do nothing, unsuccessfully.  This is mainly useful in control constructs
 such as @code{if} and @code{while} (@pxref{Shell-like scripting}).
+@end deffn
+
+@node fwconfig
+@subsection fwconig
+
+@deffn Command fwconfig fwpath envvar
+Retrieves @var{fwpath} from the qemu fwcfg store and stores it in @var{envvar}
 @end deffn
 
 @node getenv
