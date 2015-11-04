@@ -962,7 +962,9 @@ grub_script_execute_cmdline (struct grub_script_cmd *cmd)
   }
   cmdstring[cmdlen-1]= '\0';
   grub_tpm_measure((unsigned char *)cmdstring, cmdlen, GRUB_COMMAND_PCR,
-		   cmdstring);
+		   "Script Commandline");
+  grub_free(cmdstring);
+  cmdstring = '\0';
 
   invert = 0;
   argc = argv.argc - 1;
