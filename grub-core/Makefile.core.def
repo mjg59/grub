@@ -59,9 +59,6 @@ kernel = {
   ia64_efi_ldflags = '-Wl,-r,-d';
   ia64_efi_stripflags = '--strip-unneeded -K start -R .note -R .comment -R .note.gnu.gold-version';
 
-  x86_64_xen_cppflags	   = '$(CPPFLAGS_XEN)';
-  i386_xen_cppflags	   = '$(CPPFLAGS_XEN)';
-
   arm_efi_ldflags          = '-Wl,-r,-d';
   arm_efi_stripflags       = '--strip-unneeded -K start -R .note -R .comment -R .note.gnu.gold-version';
 
@@ -604,7 +601,6 @@ module = {
 module = {
   name = lsxen;
   common = commands/xen/lsxen.c;
-  cppflags = '$(CPPFLAGS_XEN)';
 
   enable = xen;
 };
@@ -847,7 +843,6 @@ module = {
   i386_coreboot = lib/i386/halt.c;
   i386_qemu = lib/i386/halt.c;
   xen = lib/xen/halt.c;
-  xen_cppflags = '$(CPPFLAGS_XEN)';
   efi = lib/efi/halt.c;
   ieee1275 = lib/ieee1275/halt.c;
   emu = lib/emu/halt.c;
@@ -868,7 +863,6 @@ module = {
   mips_loongson = lib/mips/loongson/reboot.c;
   mips_qemu_mips = lib/mips/qemu_mips/reboot.c;
   xen = lib/xen/reboot.c;
-  xen_cppflags = '$(CPPFLAGS_XEN)';
   uboot = lib/uboot/reboot.c;
   common = commands/reboot.c;
 };
@@ -1563,7 +1557,6 @@ module = {
   i386_xen = lib/i386/xen/relocator.S;
   x86_64_xen = lib/x86_64/xen/relocator.S;
   xen = lib/i386/relocator_common_c.c;
-  xen_cppflags = '$(CPPFLAGS_XEN)';
 
   extra_dist = lib/i386/relocator_common.S;
   extra_dist = kern/powerpc/cache_flush.S;
@@ -1584,7 +1577,6 @@ module = {
   sparc64_ieee1275 = lib/ieee1275/cmos.c;
   powerpc_ieee1275 = lib/ieee1275/cmos.c;
   xen = lib/xen/datetime.c;
-  xen_cppflags = '$(CPPFLAGS_XEN)';
 
   mips_arc = lib/arc/datetime.c;
   enable = noemu;
@@ -1694,7 +1686,6 @@ module = {
   name = linux;
   x86 = loader/i386/linux.c;
   xen = loader/i386/xen.c;
-  xen_cppflags	   = '$(CPPFLAGS_XEN)';
   i386_pc = lib/i386/pc/vesa_modes_table.c;
   mips = loader/mips/linux.c;
   powerpc_ieee1275 = loader/powerpc/ieee1275/linux.c;
