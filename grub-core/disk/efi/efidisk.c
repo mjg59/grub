@@ -27,6 +27,8 @@
 #include <grub/efi/efi.h>
 #include <grub/efi/disk.h>
 
+#define DEBUG_NAMES 1
+
 struct grub_efidisk_data
 {
   grub_efi_handle_t handle;
@@ -389,7 +391,7 @@ grub_efidisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
       for (d = hd_devices, count = 0; d; d = d->next, count++)
 	{
 	  grub_snprintf (buf, sizeof (buf), "hd%d", count);
-	  grub_dprintf ("efidisk", "iterating %s\n", buf);
+	  grub_printf ( "iterating %s\n", buf);
 	  if (hook (buf, hook_data))
 	    return 1;
 	}
@@ -398,7 +400,7 @@ grub_efidisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
       for (d = fd_devices, count = 0; d; d = d->next, count++)
 	{
 	  grub_snprintf (buf, sizeof (buf), "fd%d", count);
-	  grub_dprintf ("efidisk", "iterating %s\n", buf);
+	  grub_printf ( "iterating %s\n", buf);
 	  if (hook (buf, hook_data))
 	    return 1;
 	}
@@ -406,7 +408,7 @@ grub_efidisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
       for (d = cd_devices, count = 0; d; d = d->next, count++)
 	{
 	  grub_snprintf (buf, sizeof (buf), "cd%d", count);
-	  grub_dprintf ("efidisk", "iterating %s\n", buf);
+	  grub_printf ( "iterating %s\n", buf);
 	  if (hook (buf, hook_data))
 	    return 1;
 	}
@@ -458,7 +460,7 @@ grub_efidisk_open (const char *name, struct grub_disk *disk)
   struct grub_efidisk_data *d = 0;
   grub_efi_block_io_media_t *m;
 
-  grub_dprintf ("efidisk", "opening %s\n", name);
+  grub_printf ( "opening %s\n", name);
 
   num = get_drive_number (name);
   if (num < 0)
@@ -487,7 +489,7 @@ grub_efidisk_open (const char *name, struct grub_disk *disk)
   m = d->block_io->media;
   /* FIXME: Probably it is better to store the block size in the disk,
      and total sectors should be replaced with total blocks.  */
-  grub_dprintf ("efidisk", "m = %p, last block = %llx, block size = %x\n",
+  grub_printf ( "m = %p, last block = %llx, block size = %x\n",
 		m, (unsigned long long) m->last_block, m->block_size);
   disk->total_sectors = m->last_block + 1;
   /* Don't increase this value due to bug in some EFI.  */
@@ -500,7 +502,7 @@ grub_efidisk_open (const char *name, struct grub_disk *disk)
        disk->log_sector_size++);
   disk->data = d;
 
-  grub_dprintf ("efidisk", "opening %s succeeded\n", name);
+  grub_printf ( "opening %s succeeded\n", name);
 
   return GRUB_ERR_NONE;
 }
@@ -509,7 +511,7 @@ static void
 grub_efidisk_close (struct grub_disk *disk __attribute__ ((unused)))
 {
   /* EFI disks do not allocate extra memory, so nothing to do here.  */
-  grub_dprintf ("efidisk", "closing %s\n", disk->name);
+  grub_printf ( "closing %s\n", disk->name);
 }
 
 static grub_efi_status_t
@@ -535,7 +537,7 @@ grub_efidisk_read (struct grub_disk *disk, grub_disk_addr_t sector,
 {
   grub_efi_status_t status;
 
-  grub_dprintf ("efidisk",
+  grub_printf (
 		"reading 0x%lx sectors at the sector 0x%llx from %s\n",
 		(unsigned long) size, (unsigned long long) sector, disk->name);
 
@@ -556,7 +558,7 @@ grub_efidisk_write (struct grub_disk *disk, grub_disk_addr_t sector,
 {
   grub_efi_status_t status;
 
-  grub_dprintf ("efidisk",
+  grub_printf (
 		"writing 0x%lx sectors at the sector 0x%llx to %s\n",
 		(unsigned long) size, (unsigned long long) sector, disk->name);
 
