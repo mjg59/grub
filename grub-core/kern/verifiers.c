@@ -1,8 +1,25 @@
+/* verifiers.c - core verifiers support code */
+/*
+ *  GRUB  --  GRand Unified Bootloader
+ *  Copyright (C) 2009  Free Software Foundation, Inc.
+ *
+ *  GRUB is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  GRUB is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <grub/file.h>
 #include <grub/verify.h>
-#include <grub/dl.h>
-
-GRUB_MOD_LICENSE ("GPLv3+");
+#include <grub/misc.h>
 
 struct grub_file_verifier *grub_file_verifiers;
 
@@ -55,7 +72,7 @@ struct grub_fs verified_fs =
   .close = verified_close
 };
 
-static grub_file_t
+grub_file_t
 grub_verify_helper_open (grub_file_t io, enum grub_file_type type)
 {
   grub_verified_t verified = 0;
@@ -175,12 +192,14 @@ grub_verify_string (char *str, enum grub_verify_string_type type)
   return GRUB_ERR_NONE;
 }
 
-GRUB_MOD_INIT(verify_helper)
+void
+grub_verifier_register (struct grub_file_verifier *ver)
 {
-  grub_file_filter_register (GRUB_FILE_FILTER_VERIFY, grub_verify_helper_open);
+  grub_list_push (GRUB_AS_LIST_P (&grub_file_verifiers), GRUB_AS_LIST (ver));
 }
 
-GRUB_MOD_FINI(verify_helper)
+void
+grub_verifier_unregister (struct grub_file_verifier *ver)
 {
-  grub_file_filter_unregister (GRUB_FILE_FILTER_VERIFY);
+  grub_list_remove (GRUB_AS_LIST (ver));
 }

@@ -37,17 +37,9 @@ struct grub_file_verifier
 
 extern struct grub_file_verifier *grub_file_verifiers;
 
-static inline void
-grub_verifier_register (struct grub_file_verifier *ver)
-{
-  grub_list_push (GRUB_AS_LIST_P (&grub_file_verifiers), GRUB_AS_LIST (ver));
-}
+grub_file_t grub_verify_helper_open(grub_file_t io, enum grub_file_type type);
 
-static inline void
-grub_verifier_unregister (struct grub_file_verifier *ver)
-{
-  grub_list_remove (GRUB_AS_LIST (ver));
-}
-
+void EXPORT_FUNC(grub_verifier_register) (struct grub_file_verifier *ver);
+void EXPORT_FUNC(grub_verifier_unregister) (struct grub_file_verifier *ver);
 grub_err_t
-grub_verify_string (char *str, enum grub_verify_string_type type);
+EXPORT_FUNC(grub_verify_string) (char *str, enum grub_verify_string_type type);
